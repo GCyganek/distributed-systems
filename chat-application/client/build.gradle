@@ -1,5 +1,15 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+application {
+    mainClass.set('gcyganek.Main')
+}
+
+
+run {
+    standardInput = System.in
 }
 
 group 'gcyganek'
