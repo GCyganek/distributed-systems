@@ -8,6 +8,10 @@ public class Client {
 
     private final String hostName;
     private final int port;
+    private UdpChannel udpChannel;
+    private MessageReader messageReader;
+    private MessageWriter messageWriter;
+    private boolean appClosedAlready = false;
 
     public Client(String hostName, int port) {
         this.hostName = hostName;
@@ -18,26 +22,44 @@ public class Client {
         Socket socket = null;
         try {
             socket = new Socket(hostName, port);
+            udpChannel = new UdpChannel(socket, this);
+            messageReader = new MessageReader(socket, this);
+            messageWriter = new MessageWriter(socket, udpChannel);
 
-            Thread messageReader = new Thread(new MessageReader(socket));
-            Thread messageWriter = new Thread(new MessageWriter(socket));
+            Thread messageReaderThread = new Thread(messageReader);
+            Thread messageWriterThread = new Thread(messageWriter);
+            Thread udpChannelThread = new Thread(udpChannel);
 
-            messageReader.start();
-            messageWriter.start();
+            messageReaderThread.start();
+            udpChannelThread.start();
+            messageWriterThread.start();
 
             System.out.println("Connected to the server, you can start chatting!");
 
-            messageReader.join();
-            messageWriter.join();
+            messageReaderThread.join();
+            udpChannelThread.join();
+            messageWriterThread.join();
 
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            closeApp("An unexpected error has happened. Closing the app. Press ENTER to end the process");
         } finally {
-            close(socket);
+            closeSocket(socket);
         }
     }
 
-    private void close(Socket socket) {
+    public synchronized void closeApp(String endMsg) {
+        if (appClosedAlready) return;
+        appClosedAlready = true;
+
+        if (endMsg != null) {
+            System.err.println(endMsg);
+        }
+        if (messageReader != null) messageReader.closeReader();
+        if (udpChannel != null) udpChannel.closeDatagramSocket();
+        if (messageWriter != null) messageWriter.closeWriter();
+    }
+
+    private void closeSocket(Socket socket) {
         if (socket != null) {
             try {
                 socket.close();

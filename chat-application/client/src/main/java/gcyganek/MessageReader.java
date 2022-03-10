@@ -9,19 +9,13 @@ import java.net.Socket;
 public class MessageReader implements Runnable {
 
     private final Socket socket;
-    private BufferedReader in;
+    private final BufferedReader in;
+    private final Client client;
 
-    public MessageReader(Socket socket) {
+    public MessageReader(Socket socket, Client client) throws IOException {
         this.socket = socket;
-        initializeInput();
-    }
-
-    private void initializeInput() {
-        try {
-            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.client = client;
+        this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     @Override
@@ -32,13 +26,11 @@ public class MessageReader implements Runnable {
                 System.out.println(msg);
             }
         } catch (IOException e) {
-            System.out.println("Connection to the server has been lost");
-        } finally {
-            closeReader();
+            client.closeApp("Connection to the server has been lost. Closing the app. Press ENTER to end the process");
         }
     }
 
-    private void closeReader() {
+    public void closeReader() {
         try {
             if (in != null) in.close();
             if (!socket.isClosed()) socket.close();
