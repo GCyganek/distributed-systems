@@ -22,9 +22,13 @@ public class Server {
             serverSocket = new ServerSocket(port);
             serverSocket.setReuseAddress(true);
 
+            UdpChannel udpChannel = new UdpChannel(port);
+            new Thread(udpChannel).start();
+
             logger.info("Server running on port " + port);
 
             while (!serverSocket.isClosed()) {
+
                 Socket clientSocket = serverSocket.accept();
 
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
