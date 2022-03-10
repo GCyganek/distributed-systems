@@ -10,12 +10,14 @@ public class MessageWriter implements Runnable{
     private final Socket socket;
     private final Scanner systemIn;
     private final UdpChannel udpChannel;
+    private final UdpChannel udpMulticastChannel;
     private PrintWriter out;
 
-    public MessageWriter(Socket socket, UdpChannel udpChannel) throws IOException {
+    public MessageWriter(Socket socket, UdpChannel udpChannel, UdpChannel udpMulticastChannel) throws IOException {
         this.socket = socket;
         this.systemIn = new Scanner(System.in);
         this.udpChannel = udpChannel;
+        this.udpMulticastChannel = udpMulticastChannel;
         initializeOutputAndSendUsername();
     }
 
@@ -33,6 +35,8 @@ public class MessageWriter implements Runnable{
 
             if (msg.startsWith("U ")) {
                 udpChannel.sendUdpMessage(msg.substring(2));
+            } else if (msg.startsWith("M ")) {
+                udpMulticastChannel.sendUdpMessage("GROUP_MSG: " + msg.substring(2));
             } else {
                 out.println(msg);
             }
