@@ -11,14 +11,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ClientHandler implements Runnable {
 
     private static final List<ClientHandler> clientHandlers = new ArrayList<>();
     private static final Map<AddressAndPort, String> addressAndPortToUsername = new HashMap<>();
-    private static final Set<String> usernames = new HashSet<>();
 
     private final Logger logger = LogManager.getLogger(ClientHandler.class);
     private final Socket clientSocket;
@@ -45,14 +43,6 @@ public class ClientHandler implements Runnable {
 
     private void addClientHandler() {
         clientHandlers.add(this);
-
-        String clientUsernameToAdd = clientUsername;
-        while (!usernames.add(clientUsernameToAdd)) {
-            int index = 1;
-            clientUsernameToAdd = clientUsername + index;
-        }
-        clientUsername = clientUsernameToAdd;
-
         addressAndPortToUsername.put(new AddressAndPort(clientSocket.getInetAddress(),
                 clientSocket.getPort()), clientUsername);
 
@@ -95,7 +85,6 @@ public class ClientHandler implements Runnable {
 
     private void removeClientHandler() {
         clientHandlers.remove(this);
-        usernames.remove(clientUsername);
         addressAndPortToUsername.remove(new AddressAndPort(clientSocket.getInetAddress(), clientSocket.getPort()));
         broadcastMessage(clientUsername + " has left the chat");
     }

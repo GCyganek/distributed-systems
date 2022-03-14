@@ -10,7 +10,7 @@ import java.net.Socket;
 public class Server {
 
     private final Logger logger = LogManager.getLogger(Server.class);
-    private final int port;
+    private int port;
 
     public Server(int port) {
         this.port = port;
@@ -21,6 +21,10 @@ public class Server {
         try {
             serverSocket = new ServerSocket(port);
             serverSocket.setReuseAddress(true);
+
+            if (port == 0) {
+                port = serverSocket.getLocalPort();
+            }
 
             UdpChannel udpChannel = new UdpChannel(port);
             new Thread(udpChannel).start();
