@@ -12,6 +12,7 @@ public class UdpChannel implements Runnable {
     private final int sendPort;
     private final InetAddress sendAddress;
     private final Client client;
+    private String username;
 
     public UdpChannel(DatagramSocket datagramSocket, int sendPort, InetAddress sendAddress, Client client) throws IOException {
         this.datagramSocket = datagramSocket;
@@ -30,7 +31,8 @@ public class UdpChannel implements Runnable {
                 DatagramPacket receivedPacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
                 datagramSocket.receive(receivedPacket);
                 String receivedMsg = new String(receivedPacket.getData());
-                System.out.println(receivedMsg);
+                if (username == null || !receivedMsg.startsWith(username))
+                    System.out.println(receivedMsg);
             }
         } catch (IOException e) {
             client.closeApp("Connection to the server has been lost. Closing the app. Press ENTER to end the process");
@@ -54,6 +56,10 @@ public class UdpChannel implements Runnable {
         } catch (IOException e) {
             closeDatagramSocket();
         }
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

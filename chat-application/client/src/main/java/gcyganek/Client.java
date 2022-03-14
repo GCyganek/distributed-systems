@@ -2,7 +2,6 @@ package gcyganek;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.Enumeration;
 
 
 public class Client {
@@ -81,18 +80,6 @@ public class Client {
                 socket.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-            while (networkInterfaces.hasMoreElements()) {
-                NetworkInterface networkInterface = networkInterfaces.nextElement();
-                System.out.println(networkInterface);
-            }
-        } catch (SocketException e) {
             e.printStackTrace();
         }
     }
