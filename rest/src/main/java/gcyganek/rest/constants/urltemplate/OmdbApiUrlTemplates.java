@@ -1,4 +1,4 @@
-package gcyganek.rest.urltemplate;
+package gcyganek.rest.constants.urltemplate;
 
 public final class OmdbApiUrlTemplates {
     public static final String MOVIE_DATA_URL = "https://www.omdbapi.com/?apikey={0}&i={1}";
