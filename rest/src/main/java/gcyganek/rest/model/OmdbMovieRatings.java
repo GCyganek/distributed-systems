@@ -1,37 +1,46 @@
 package gcyganek.rest.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import gcyganek.rest.constants.OmdbRatingSources;
 
 import java.util.Objects;
 
-public class OmdbMovieRatings extends MovieRatings<JsonNode> {
+public class OmdbMovieRatings extends MovieRatings {
 
-    @Override
-    public void addRating(JsonNode rating) {
-        String ratingValue = rating.get("Value").asText();
-        String ratingSource = rating.get("Source").asText();
+    public OmdbMovieRatings() {
+        this.apiName = ApiName.OMDb_API;
+    }
 
-        if (Objects.equals(ratingSource, OmdbRatingSources.IMDB))
+    public void addRating(String name, String rating) {
+
+        if (Objects.equals(name, OmdbRatingSources.IMDB))
         {
-            addImdbRating(ratingValue);
+            addImdbRating(name, rating);
         }
-        else if (Objects.equals(ratingSource, OmdbRatingSources.METACRITIC)
-                || Objects.equals(ratingSource, OmdbRatingSources.ROTTEN_TOMATOES))
+        else if (Objects.equals(name, OmdbRatingSources.ROTTEN_TOMATOES))
         {
-            addRottenTomatoesOrMetacriticRating(ratingValue);
+            addRottenTomatoesRating(name, rating);
+        }
+        else if (Objects.equals(name, OmdbRatingSources.METACRITIC))
+        {
+            addMetacriticRating(name, rating);
         }
     }
 
-    public void addImdbRating(String rating) throws NumberFormatException {
-        movieRatings.add(
-                Double.parseDouble(rating.substring(0, 3))
+    public void addImdbRating(String name, String rating) throws NumberFormatException {
+        movieRatings.put(
+                name, Double.parseDouble(rating.substring(0, 3))
         );
     }
 
-    public void addRottenTomatoesOrMetacriticRating(String rating) {
-        movieRatings.add(
-                (double) Integer.parseInt(rating.substring(0, 2)) / 10
+    public void addRottenTomatoesRating(String name, String rating) {
+        movieRatings.put(
+                name, (double) Integer.parseInt(rating.split("%")[0]) / 10
+        );
+    }
+
+    public void addMetacriticRating(String name, String rating) {
+        movieRatings.put(
+                name, (double) Integer.parseInt(rating.split("/")[0]) / 10
         );
     }
 

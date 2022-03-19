@@ -1,9 +1,12 @@
 package gcyganek.rest.model;
 
-public class TmdbMovieRatings extends MovieRatings<Double> {
+public class TmdbMovieRatings extends MovieRatings {
 
-    @Override
-    public void addRating(Double rating) {
-        movieRatings.add(rating);
+    public TmdbMovieRatings() {
+        this.apiName = ApiName.TMDB_API;
+    }
+
+    public void addRating(String name, String rating) throws NumberFormatException, NullPointerException {
+        movieRatings.put(name, Double.valueOf(rating));
     }
 }

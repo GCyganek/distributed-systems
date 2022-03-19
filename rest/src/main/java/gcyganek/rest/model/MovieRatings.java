@@ -1,13 +1,17 @@
 package gcyganek.rest.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class MovieRatings<T> {
-    protected List<Double> movieRatings = new ArrayList<>();
+public abstract class MovieRatings {
+    protected Map<String, Double> movieRatings = new HashMap<>();
     protected ApiCallerEndStatus endStatus;
+    protected ApiName apiName;
+    protected String movieName;
 
-    public List<Double> getMovieRatings() {
+    public Map<String, Double> getMovieRatings() {
         return movieRatings;
     }
 
@@ -15,14 +19,30 @@ public abstract class MovieRatings<T> {
         return endStatus;
     }
 
+    public String getMovieName() {
+        return movieName;
+    }
+
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
+    }
+
     public void setEndStatus(ApiCallerEndStatus endStatus) {
         this.endStatus = endStatus;
     }
 
-    public double getAverageRating() {
-        double sum = movieRatings.stream().reduce(0.0, Double::sum);
-        return sum / movieRatings.size();
+    public ApiName getApiName() {
+        return apiName;
     }
 
-    public abstract void addRating(T rating);
+    public double getAverageRating() {
+        double sum = movieRatings.values().stream().reduce(0.0, Double::sum);
+        double result = sum / movieRatings.size();
+
+        BigDecimal bd = new BigDecimal(Double.toString(result));
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    public abstract void addRating(String name, String rating);
 }
