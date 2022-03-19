@@ -1,0 +1,59 @@
+#header-div {
+    width:50%;
+    margin:5vh auto auto;
+    background-color:#bfbc58;
+}
+
+#header-div h2 {
+    text-align:center;
+    color:whitesmoke;
+    text-shadow:2px 2px #737131;
+}
+
+.normal-div {
+    width:50%;
+    margin:5vh auto auto;
+    padding: 0 25px;
+}
+
+#movie-title {
+    text-align:center;
+    color: #211f0d;
+    text-shadow: 2px 2px whitesmoke;
+}
+
+.error-text {
+    text-align:center;
+    color:#211f0d;
+    text-shadow: 2px 2px whitesmoke;
+}
+
+.score-btn {
+    pointer-events:none;
+    float:right;
+}
+
+#avg-score-overall-btn {
+    float:none;
+    display:inline-block;
+}
+
+#avg-score-overall-li {
+    width:100%;
+    text-align:center;
+}
+
+.rating-source-text {
+    float:left;
+}
+
+.no-reviews-text {
+    text-align:center;
+    color: #211f0d;
+    text-shadow: 2px 2px whitesmoke;
+}
+
+.list-header {
+    text-align: center;
+    font-weight: bold;
+}

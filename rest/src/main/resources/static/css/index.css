@@ -1,0 +1,17 @@
+#header-div {
+    width:50%;
+    margin:5vh auto auto;
+    background-color:#bfbc58;
+}
+
+#header-div h2 {
+    text-align:center;
+    color:whitesmoke;
+    text-shadow:2px 2px #737131;
+}
+
+form {
+    width:50%;
+    margin:5vh auto auto;
+    padding: 0 25px;
+}
