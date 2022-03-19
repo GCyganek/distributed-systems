@@ -3,14 +3,11 @@ package gcyganek.rest.apicaller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gcyganek.rest.constants.OmdbRatingSources;
 import gcyganek.rest.model.ApiCallerEndStatus;
 import gcyganek.rest.model.OmdbMovieRatings;
 import gcyganek.rest.urlbuilder.OmdbApiUrlBuilder;
-import gcyganek.rest.urlbuilder.TmdbApiUrlBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Objects;
@@ -49,9 +46,13 @@ public class OmdbApiCaller extends ApiCaller implements Runnable {
 
             JsonNode reviewsArrayNode = jsonResponse.get("Ratings");
 
+            movieRatings.setMovieName(jsonResponse.get("Title").asText());
+
             if (reviewsArrayNode.isArray()) {
                 for (JsonNode reviewNode: reviewsArrayNode) {
-                    movieRatings.addRating(reviewNode);
+                    String ratingValue = reviewNode.get("Value").asText();
+                    String ratingSource = reviewNode.get("Source").asText();
+                    movieRatings.addRating(ratingSource, ratingValue);
                 }
             }
 

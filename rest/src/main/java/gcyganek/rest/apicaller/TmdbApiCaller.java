@@ -8,7 +8,6 @@ import gcyganek.rest.model.TmdbMovieRatings;
 import gcyganek.rest.urlbuilder.TmdbApiUrlBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;
 
 public class TmdbApiCaller extends ApiCaller implements Runnable {
@@ -45,10 +44,11 @@ public class TmdbApiCaller extends ApiCaller implements Runnable {
             if (reviewsArrayNode.isArray()) {
                 for (JsonNode reviewNode: reviewsArrayNode) {
                     try {
-                        double reviewRating = reviewNode.get("author_details").get("rating").asDouble();
-                        movieRatings.addRating(reviewRating);
+                        String authorName = reviewNode.get("author_details").get("name").asText();
+                        String reviewRating = reviewNode.get("author_details").get("rating").asText();
+                        movieRatings.addRating(authorName, reviewRating);
                     }
-                    catch (NullPointerException e) {
+                    catch (NullPointerException | NumberFormatException e) {
                         continue;
                     }
                 }
