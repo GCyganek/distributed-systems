@@ -3,6 +3,7 @@ package gcyganek.rest.controller;
 import gcyganek.rest.apicaller.OmdbApiCaller;
 import gcyganek.rest.apicaller.TmdbApiCaller;
 import gcyganek.rest.model.*;
+import gcyganek.rest.util.DoubleFormatter;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,9 +58,11 @@ public class FormSubmitController {
         if (sourcesToConsiderList.size() == 0)
             return -1;
 
-        return sourcesToConsiderList.stream()
+        double result = sourcesToConsiderList.stream()
                 .map(MovieRatings::getAverageRating)
                 .reduce(0.0, Double::sum) / sourcesToConsiderList.size();
+
+        return DoubleFormatter.trimDoubleToOneDecimalPlace(result);
     }
 
     private void processMovieRatings(ModelAndView mav, MovieRatings movieRatings) {

@@ -1,5 +1,7 @@
 package gcyganek.rest.model;
 
+import gcyganek.rest.util.DoubleFormatter;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
@@ -38,10 +40,7 @@ public abstract class MovieRatings {
     public double getAverageRating() {
         double sum = movieRatings.values().stream().reduce(0.0, Double::sum);
         double result = sum / movieRatings.size();
-
-        BigDecimal bd = new BigDecimal(Double.toString(result));
-        bd = bd.setScale(1, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+        return DoubleFormatter.trimDoubleToOneDecimalPlace(result);
     }
 
     public abstract void addRating(String name, String rating);
