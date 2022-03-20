@@ -9,6 +9,16 @@ application {
     mainClass.set('gcyganek.rest.Main')
 }
 
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                'Main-Class': 'gcyganek.rest.Main')}
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 group 'gcyganek'
 version '1.0-SNAPSHOT'
 
