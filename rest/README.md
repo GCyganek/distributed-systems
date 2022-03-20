@@ -17,7 +17,7 @@ Endpoints:
 
 ---
 
-For the application to work you have to create api_keys.properties file in a root directory of the project and add following fields:
+If the remote API call returns API auth key error, update api_keys.properties file in a root directory of this project:
 ```
 tmdb_api_key=example_tmdb_api_key
 omdb_api_key=example_omdb_api_key
