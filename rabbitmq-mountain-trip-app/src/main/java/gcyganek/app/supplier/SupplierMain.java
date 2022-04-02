@@ -24,7 +24,8 @@ public class SupplierMain {
         try {
             supplier.init();
         } catch (IOException | TimeoutException e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
+            return;
         }
 
         logger.info("Supplier initialized. Enter 'exit' to close the client.");

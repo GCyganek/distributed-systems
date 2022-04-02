@@ -1,5 +1,6 @@
 package gcyganek.app;
 
+import com.rabbitmq.client.AlreadyClosedException;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -69,7 +70,7 @@ public abstract class RabbitMqClient {
         try {
             channel.close();
             connection.close();
-        } catch (IOException | TimeoutException e) {
+        } catch (IOException | TimeoutException | AlreadyClosedException e) {
             logger.error("Error while closing the client: " + e.getMessage());
         }
     }

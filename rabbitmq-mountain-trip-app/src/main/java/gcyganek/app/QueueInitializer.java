@@ -13,7 +13,7 @@ public class QueueInitializer {
     }
 
     public void initAdminQueue(Channel channel, String queueName, boolean forSupplier) throws IOException {
-        String routingKey = forSupplier ? "suppliers.*" : "*.groups";
+        String routingKey = forSupplier ? "*.suppliers" : "groups.*";
         initQueue(channel, queueName, routingKey, ExchangeNames.ADMIN_EXCHANGE);
     }
 

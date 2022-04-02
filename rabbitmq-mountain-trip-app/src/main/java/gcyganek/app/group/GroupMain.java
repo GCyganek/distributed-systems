@@ -22,6 +22,7 @@ public class GroupMain {
             group.init();
         } catch (IOException | TimeoutException e) {
             logger.error(e.getMessage());
+            return;
         }
 
         logger.info("Group initialized. Enter items to order od 'exit' to close the client.");
