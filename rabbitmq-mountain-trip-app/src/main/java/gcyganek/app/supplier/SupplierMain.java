@@ -26,6 +26,9 @@ public class SupplierMain {
         } catch (IOException | TimeoutException e) {
             logger.error(e.getMessage());
         }
+
+        logger.info("Supplier initialized. Enter 'exit' to close the client.");
+        supplier.run();
     }
 
     private static Logger setupLogger() {
