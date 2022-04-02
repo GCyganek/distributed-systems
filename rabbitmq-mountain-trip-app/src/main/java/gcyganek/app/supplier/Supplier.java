@@ -1,8 +1,7 @@
 package gcyganek.app.supplier;
 
-import com.rabbitmq.client.*;
+import com.rabbitmq.client.Consumer;
 import gcyganek.app.AdminMessageConsumer;
-import gcyganek.app.ExchangesInitializer;
 import gcyganek.app.QueueInitializer;
 import gcyganek.app.RabbitMqClient;
 import org.apache.logging.log4j.LogManager;
