@@ -35,9 +35,8 @@ public class OrderMessageConsumer extends MessageConsumer {
 
     private void replyOrderAck(String groupName, String item) throws IOException {
         int ackIndex = supplier.getAndIncrementAckIndex();
-        String routingKey = groupName + "." + ackIndex;
         String message = clientName + " " + ackIndex + " " + item;
-        channel.basicPublish(ExchangeNames.ORDERS_ACK_EXCHANGE, routingKey, null, message.getBytes(StandardCharsets.UTF_8));
+        channel.basicPublish(ExchangeNames.ORDERS_ACK_EXCHANGE, groupName, null, message.getBytes(StandardCharsets.UTF_8));
         logger.info("Sent ack with index " + ackIndex + " to group " + groupName);
     }
 }
