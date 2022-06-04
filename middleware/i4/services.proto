@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package services;
+
+option java_multiple_files = true;
+
+message SubtractOneRequest {
+  int64 number = 1;
+}
+
+message SubtractOneResult {
+  int64 result = 1;
+}
+
+service SubtractOneService {
+  rpc subtractOne (SubtractOneRequest) returns (SubtractOneResult);
+}
+
+message NextDayRequest {
+  string currentDay = 1;
+}
+
+message NextDayResult {
+  string nextDay = 1;
+}
+
+service NextDayService {
+  rpc getNextDay (NextDayRequest) returns (NextDayResult);
+}
+
+message DivisibleBy5Request {
+  int64 request = 1;
+}
+
+message DivisibleBy5Result {
+  bool result = 1;
+}
+
+service DivisibleBy5Service {
+  rpc isDivisibleBy5 (DivisibleBy5Request) returns (DivisibleBy5Result);
+}

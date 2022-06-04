@@ -1,0 +1,18 @@
+basicLight1=lights/basicLight1 : tcp -h localhost -p 10000
+basicLight2=lights/basicLight2 : tcp -h localhost -p 10000
+
+proLight1=lights/proLight1 : tcp -h localhost -p 10000
+proLight2=lights/proLight2 : tcp -h localhost -p 10000
+
+basicOven1=ovens/basicOven1 : tcp -h localhost -p 10001
+basicOven2=ovens/basicOven2 : tcp -h localhost -p 10001
+
+proOven1=ovens/proOven1 : tcp -h localhost -p 10001
+proOven2=ovens/proOven2 : tcp -h localhost -p 10001
+# DEVICES_END
+
+Ice.Warn.Connections=1
+
+Ice.ACM.Timeout=10
+
+Ice.Trace.Network=0
